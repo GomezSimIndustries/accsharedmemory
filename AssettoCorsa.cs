@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace AssettoCorsaSharedMemory
@@ -15,6 +11,8 @@ namespace AssettoCorsaSharedMemory
     public delegate void GraphicsUpdatedHandler(object sender, GraphicsEventArgs e);
     public delegate void StaticInfoUpdatedHandler(object sender, StaticInfoEventArgs e);
     public delegate void GameStatusChangedHandler(object sender, GameStatusEventArgs e);
+    public delegate void PitStatusChangedHandler(object sender, PitStatusEventArgs e);
+    public delegate void SessionTypeChangedHandler(object sender, SessionTypeEventArgs e);
 
     public class AssettoCorsaNotStartedException : Exception
     {
@@ -33,6 +31,8 @@ namespace AssettoCorsaSharedMemory
         public bool IsRunning { get { return (memoryStatus == AC_MEMORY_STATUS.CONNECTED); } }
 
         private AC_STATUS gameStatus = AC_STATUS.AC_OFF;
+        private int pitStatus = 1;
+        private AC_SESSION_TYPE sessionType = AC_SESSION_TYPE.AC_UNKNOWN;
 
         public event GameStatusChangedHandler GameStatusChanged;
         public virtual void OnGameStatusChanged(GameStatusEventArgs e)
@@ -40,6 +40,24 @@ namespace AssettoCorsaSharedMemory
             if (GameStatusChanged != null)
             {
                 GameStatusChanged(this, e);
+            }
+        }
+
+
+        public event PitStatusChangedHandler PitStatusChanged;
+        public virtual void OnPitStatusChanged(PitStatusEventArgs e)
+        {
+            if (PitStatusChanged != null)
+            {
+                PitStatusChanged(this, e);
+            }
+        }
+        public event SessionTypeChangedHandler SessionTypeChanged;
+        public virtual void OnSessionTypeChangedHandler(PitStatusEventArgs e)
+        {
+            if (PitStatusChanged != null)
+            {
+                PitStatusChanged(this, e);
             }
         }
 
@@ -206,10 +224,7 @@ namespace AssettoCorsaSharedMemory
 
         public virtual void OnPhysicsUpdated(PhysicsEventArgs e)
         {
-            if (PhysicsUpdated != null)
-            {
-                PhysicsUpdated(this, e);
-            }
+            PhysicsUpdated?.Invoke(this, e);
         }
 
         public virtual void OnGraphicsUpdated(GraphicsEventArgs e)
@@ -220,17 +235,24 @@ namespace AssettoCorsaSharedMemory
                 if (gameStatus != e.Graphics.Status)
                 {
                     gameStatus = e.Graphics.Status;
-                    GameStatusChanged(this, new GameStatusEventArgs(gameStatus));
+                    GameStatusChanged?.Invoke(this, new GameStatusEventArgs(gameStatus));
+                }
+                if (pitStatus != e.Graphics.IsInPit)
+                {
+                    pitStatus = e.Graphics.IsInPit;
+                    PitStatusChanged?.Invoke(this, new PitStatusEventArgs(pitStatus));
+                }
+                if (sessionType != e.Graphics.Session)
+                {
+                    sessionType = e.Graphics.Session;
+                    SessionTypeChanged?.Invoke(this, new SessionTypeEventArgs(sessionType));
                 }
             }
         }
 
         public virtual void OnStaticInfoUpdated(StaticInfoEventArgs e)
         {
-            if (StaticInfoUpdated != null)
-            {
-                StaticInfoUpdated(this, e);
-            }
+            StaticInfoUpdated?.Invoke(this, e);
         }
 
         private void physicsTimer_Elapsed(object sender, ElapsedEventArgs e)
