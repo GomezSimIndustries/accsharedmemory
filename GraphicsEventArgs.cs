@@ -30,8 +30,9 @@ namespace AssettoCorsaSharedMemory
         ACC_Disqualified_Wrongway = 18,
         ACC_DriveThrough_IgnoredDriverStint = 19,
         ACC_Disqualified_IgnoredDriverStint = 20,
-        ACC_Disqualified_ExceededDriverStintLimit = 21
+        ACC_Disqualified_ExceededDriverStintLimit = 21,
     }
+
     public enum AC_FLAG_TYPE
     {
         AC_NO_FLAG = 0,
@@ -42,7 +43,7 @@ namespace AssettoCorsaSharedMemory
         AC_CHECKERED_FLAG = 5,
         AC_PENALTY_FLAG = 6,
         AC_GREEN_FLAG = 7,
-        AC_ORANGE_FLAG = 8
+        AC_ORANGE_FLAG = 8,
     }
 
     public enum AC_STATUS
@@ -50,7 +51,7 @@ namespace AssettoCorsaSharedMemory
         AC_OFF = 0,
         AC_REPLAY = 1,
         AC_LIVE = 2,
-        AC_PAUSE = 3
+        AC_PAUSE = 3,
     }
 
     public enum AC_SESSION_TYPE
@@ -62,7 +63,7 @@ namespace AssettoCorsaSharedMemory
         AC_HOTLAP = 3,
         AC_TIME_ATTACK = 4,
         AC_DRIFT = 5,
-        AC_DRAG = 6
+        AC_DRAG = 6,
     }
 
     public enum AC_WHEELS_TYPE
@@ -70,7 +71,7 @@ namespace AssettoCorsaSharedMemory
         AC_FrontLeft = 0,
         AC_FrontRight = 1,
         AC_RearLeft = 2,
-        AC_RearRight = 3
+        AC_RearRight = 3,
     }
 
     public enum AC_TRACK_GRIP_STATUS
@@ -81,7 +82,7 @@ namespace AssettoCorsaSharedMemory
         AC_GREASY = 3,
         AC_DEMP = 4,
         AC_WET = 5,
-        AC_FLOODED = 6
+        AC_FLOODED = 6,
     }
 
     public enum AC_RAIN_INTENSITY
@@ -91,12 +92,12 @@ namespace AssettoCorsaSharedMemory
         AC_LIGHT_RAIN = 2,
         AC_MEDIUM_RAIN = 3,
         AC_HEAVY_RAIN = 4,
-        AC_THUNDERSTORM = 5
+        AC_THUNDERSTORM = 5,
     }
 
     public class GraphicsEventArgs : EventArgs
     {
-        public GraphicsEventArgs (Graphics graphics)
+        public GraphicsEventArgs(Graphics graphics)
         {
             this.Graphics = graphics;
         }
@@ -104,53 +105,58 @@ namespace AssettoCorsaSharedMemory
         public Graphics Graphics { get; private set; }
     }
 
-    [StructLayout (LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
     [Serializable]
     public struct Graphics
     {
         public int PacketId;
         public AC_STATUS Status;
         public AC_SESSION_TYPE Session;
-        [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String CurrentTime;
-        [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String LastTime;
-        [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String BestTime;
-        [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String Split;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+        public string CurrentTime;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+        public string LastTime;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+        public string BestTime;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+        public string Split;
         public int CompletedLaps;
         public int Position;
-        public int iCurrentTime;
-        public int iLastTime;
-        public int iBestTime;
+        public int ICurrentTime;
+        public int ILastTime;
+        public int IBestTime;
         public float SessionTimeLeft;
         public float DistanceTraveled;
         public int IsInPit;
         public int CurrentSectorIndex;
         public int LastSectorTime;
         public int NumberOfLaps;
-        [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 33)]
-        public String TyreCompound;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
+        public string TyreCompound;
 
         /// <summary>
-        /// Not used in ACC
+        /// Not used in ACC.
         /// </summary>
         public float ReplayTimeMultiplier;
         public float NormalizedCarPosition;
-        //Added MR
+
+        // Added MR
         public int ActiveCars;
-        [MarshalAs (UnmanagedType.ByValArray, SizeConst = 180)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 180)]
         public float[] CarCoordinates;
-        //Added MR
-        [MarshalAs (UnmanagedType.ByValArray, SizeConst = 60)]
-        //Added MR 
+
+        // Added MR
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 60)]
+
+        // Added MR
         public int[] CarID;
-        //Added MR 
+
+        // Added MR
         public int PlayerCarID;
         public float PenaltyTime;
         public AC_FLAG_TYPE Flag;
-        //Added MR 
+
+        // Added MR
         public AC_PENALTY_TYPE Penalty;
 
         public int IdealLineOn;
@@ -158,11 +164,11 @@ namespace AssettoCorsaSharedMemory
         // since 1.5
         public int IsInPitLane;
         public float SurfaceGrip;
-    
+
         // since 1.13
         public int MandatoryPitDone;
 
-        //Added MR 
+        // Added MR
         public float WindSpeed;
         public float WindDirection;
         public int IsSetupMenuVisible;
@@ -184,17 +190,17 @@ namespace AssettoCorsaSharedMemory
         public int SessionIndex;
         public float UsedFuel;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String DeltaLapTime;
-        public int iDeltaLapTime;
+        public string DeltaLapTime;
+        public int IDeltaLapTime;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
-        public String EstimatedLapTime;
-        public int iEstimatedLapTime;
+        public string EstimatedLapTime;
+        public int IEstimatedLapTime;
         public int IsDeltaPositive;
         public int IsSplit;
         public int IsValidLap;
         public float FuelEstimatedLaps;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 33)]
-        public String TrackStatus;
+        public string TrackStatus;
         public int MissingMandatoryPits;
         public float Clock;
         public int DirectionLightsLeft;
