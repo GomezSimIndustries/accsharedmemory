@@ -14,7 +14,7 @@ namespace AssettoCorsaSharedMemory
 
         public GameStatusEventArgs(AC_STATUS status)
         {
-            GameStatus = status;
+            this.GameStatus = status;
         }
     }
 
@@ -24,7 +24,7 @@ namespace AssettoCorsaSharedMemory
 
         public PitStatusEventArgs(int status)
         {
-            PitStatus = status;
+            this.PitStatus = status;
         }
     }
 
@@ -34,7 +34,7 @@ namespace AssettoCorsaSharedMemory
 
         public SessionTypeEventArgs(AC_SESSION_TYPE status)
         {
-            SessionType = status;
+            this.SessionType = status;
         }
     }
 }

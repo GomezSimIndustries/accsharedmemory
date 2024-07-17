@@ -63,9 +63,9 @@ namespace AssettoCorsaSharedMemory
 
         public virtual void OnGameStatusChanged(GameStatusEventArgs e)
         {
-            if (GameStatusChanged != null)
+            if (this.GameStatusChanged != null)
             {
-                GameStatusChanged(this, e);
+                this.GameStatusChanged(this, e);
             }
         }
 
@@ -73,9 +73,9 @@ namespace AssettoCorsaSharedMemory
 
         public virtual void OnPitStatusChanged(PitStatusEventArgs e)
         {
-            if (PitStatusChanged != null)
+            if (this.PitStatusChanged != null)
             {
-                PitStatusChanged(this, e);
+                this.PitStatusChanged(this, e);
             }
         }
 
@@ -83,9 +83,9 @@ namespace AssettoCorsaSharedMemory
 
         public virtual void OnSessionTypeChangedHandler(PitStatusEventArgs e)
         {
-            if (PitStatusChanged != null)
+            if (this.PitStatusChanged != null)
             {
-                PitStatusChanged(this, e);
+                this.PitStatusChanged(this, e);
             }
         }
 
@@ -99,26 +99,26 @@ namespace AssettoCorsaSharedMemory
 
         public AssettoCorsa()
         {
-            _sharedMemoryRetryTimer = new Timer(2000);
-            _sharedMemoryRetryTimer.AutoReset = true;
-            _sharedMemoryRetryTimer.Elapsed += sharedMemoryRetryTimer_Elapsed;
+            this._sharedMemoryRetryTimer = new Timer(2000);
+            this._sharedMemoryRetryTimer.AutoReset = true;
+            this._sharedMemoryRetryTimer.Elapsed += sharedMemoryRetryTimer_Elapsed;
 
-            _physicsTimer = new Timer();
-            _physicsTimer.AutoReset = true;
-            _physicsTimer.Elapsed += physicsTimer_Elapsed;
-            PhysicsInterval = 10;
+            this._physicsTimer = new Timer();
+            this._physicsTimer.AutoReset = true;
+            this._physicsTimer.Elapsed += physicsTimer_Elapsed;
+            this.PhysicsInterval = 10;
 
-            _graphicsTimer = new Timer();
-            _graphicsTimer.AutoReset = true;
-            _graphicsTimer.Elapsed += graphicsTimer_Elapsed;
-            GraphicsInterval = 1000;
+            this._graphicsTimer = new Timer();
+            this._graphicsTimer.AutoReset = true;
+            this._graphicsTimer.Elapsed += graphicsTimer_Elapsed;
+            this.GraphicsInterval = 1000;
 
-            _staticInfoTimer = new Timer();
-            _staticInfoTimer.AutoReset = true;
-            _staticInfoTimer.Elapsed += staticInfoTimer_Elapsed;
-            StaticInfoInterval = 1000;
+            this._staticInfoTimer = new Timer();
+            this._staticInfoTimer.AutoReset = true;
+            this._staticInfoTimer.Elapsed += staticInfoTimer_Elapsed;
+            this.StaticInfoInterval = 1000;
 
-            Stop();
+            this.Stop();
         }
 
         /// <summary>
@@ -126,45 +126,45 @@ namespace AssettoCorsaSharedMemory
         /// </summary>
         public void Start()
         {
-            _sharedMemoryRetryTimer.Start();
+            this._sharedMemoryRetryTimer.Start();
         }
 
         private void sharedMemoryRetryTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            ConnectToSharedMemory();
+            this.ConnectToSharedMemory();
         }
 
         private bool ConnectToSharedMemory()
         {
             try
             {
-                _memoryStatus = AC_MEMORY_STATUS.CONNECTING;
+                this._memoryStatus = AC_MEMORY_STATUS.CONNECTING;
 
                 // Connect to shared memory
-                _physicsMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_physics");
-                _graphicsMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_graphics");
-                _staticInfoMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_static");
+                this._physicsMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_physics");
+                this._graphicsMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_graphics");
+                this._staticInfoMMF = MemoryMappedFile.OpenExisting("Local\\acpmf_static");
 
                 // Start the timers
-                _staticInfoTimer.Start();
-                ProcessStaticInfo();
+                this._staticInfoTimer.Start();
+                this.ProcessStaticInfo();
 
-                _graphicsTimer.Start();
-                ProcessGraphics();
+                this._graphicsTimer.Start();
+                this.ProcessGraphics();
 
-                _physicsTimer.Start();
-                ProcessPhysics();
+                this._physicsTimer.Start();
+                this.ProcessPhysics();
 
                 // Stop retry timer
-                _sharedMemoryRetryTimer.Stop();
-                _memoryStatus = AC_MEMORY_STATUS.CONNECTED;
+                this._sharedMemoryRetryTimer.Stop();
+                this._memoryStatus = AC_MEMORY_STATUS.CONNECTED;
                 return true;
             }
             catch (FileNotFoundException)
             {
-                _staticInfoTimer.Stop();
-                _graphicsTimer.Stop();
-                _physicsTimer.Stop();
+                this._staticInfoTimer.Stop();
+                this._graphicsTimer.Stop();
+                this._physicsTimer.Stop();
                 return false;
             }
         }
@@ -174,13 +174,13 @@ namespace AssettoCorsaSharedMemory
         /// </summary>
         public void Stop()
         {
-            _memoryStatus = AC_MEMORY_STATUS.DISCONNECTED;
-            _sharedMemoryRetryTimer.Stop();
+            this._memoryStatus = AC_MEMORY_STATUS.DISCONNECTED;
+            this._sharedMemoryRetryTimer.Stop();
 
             // Stop the timers
-            _physicsTimer.Stop();
-            _graphicsTimer.Stop();
-            _staticInfoTimer.Stop();
+            this._physicsTimer.Stop();
+            this._graphicsTimer.Stop();
+            this._staticInfoTimer.Stop();
         }
 
         /// <summary>
@@ -191,12 +191,12 @@ namespace AssettoCorsaSharedMemory
         {
             get
             {
-                return _physicsTimer.Interval;
+                return this._physicsTimer.Interval;
             }
 
             set
             {
-                _physicsTimer.Interval = value;
+                this._physicsTimer.Interval = value;
             }
         }
 
@@ -207,12 +207,12 @@ namespace AssettoCorsaSharedMemory
         {
             get
             {
-                return _graphicsTimer.Interval;
+                return this._graphicsTimer.Interval;
             }
 
             set
             {
-                _graphicsTimer.Interval = value;
+                this._graphicsTimer.Interval = value;
             }
         }
 
@@ -223,12 +223,12 @@ namespace AssettoCorsaSharedMemory
         {
             get
             {
-                return _staticInfoTimer.Interval;
+                return this._staticInfoTimer.Interval;
             }
 
             set
             {
-                _staticInfoTimer.Interval = value;
+                this._staticInfoTimer.Interval = value;
             }
         }
 
@@ -267,13 +267,13 @@ namespace AssettoCorsaSharedMemory
                 GraphicsUpdated(this, e);
                 if (_gameStatus != e.Graphics.Status)
                 {
-                    _gameStatus = e.Graphics.Status;
+                    this._gameStatus = e.Graphics.Status;
                     GameStatusChanged?.Invoke(this, new GameStatusEventArgs(_gameStatus));
                 }
 
                 if (_pitStatus != e.Graphics.IsInPit)
                 {
-                    _pitStatus = e.Graphics.IsInPit;
+                    this._pitStatus = e.Graphics.IsInPit;
                     PitStatusChanged?.Invoke(this, new PitStatusEventArgs(_pitStatus));
                 }
 
@@ -362,12 +362,12 @@ namespace AssettoCorsaSharedMemory
         /// <returns>A Physics object representing the current status, or null if not available.</returns>
         public Physics ReadPhysics()
         {
-            if (_memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || _physicsMMF == null)
+            if (_memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || this._physicsMMF == null)
             {
                 throw new AssettoCorsaNotStartedException();
             }
 
-            using (var stream = _physicsMMF.CreateViewStream())
+            using (var stream = this._physicsMMF.CreateViewStream())
             {
                 using (var reader = new BinaryReader(stream))
                 {
@@ -383,12 +383,12 @@ namespace AssettoCorsaSharedMemory
 
         public Graphics ReadGraphics()
         {
-            if (_memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || _graphicsMMF == null)
+            if (this._memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || this._graphicsMMF == null)
             {
                 throw new AssettoCorsaNotStartedException();
             }
 
-            using (var stream = _graphicsMMF.CreateViewStream())
+            using (var stream = this._graphicsMMF.CreateViewStream())
             {
                 using (var reader = new BinaryReader(stream))
                 {
@@ -404,12 +404,12 @@ namespace AssettoCorsaSharedMemory
 
         public StaticInfo ReadStaticInfo()
         {
-            if (_memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || _staticInfoMMF == null)
+            if (this._memoryStatus == AC_MEMORY_STATUS.DISCONNECTED || this._staticInfoMMF == null)
             {
                 throw new AssettoCorsaNotStartedException();
             }
 
-            using (var stream = _staticInfoMMF.CreateViewStream())
+            using (var stream = this._staticInfoMMF.CreateViewStream())
             {
                 using (var reader = new BinaryReader(stream))
                 {
